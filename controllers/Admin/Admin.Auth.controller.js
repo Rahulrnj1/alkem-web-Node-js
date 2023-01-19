@@ -23,11 +23,12 @@ const adminRegister = async (req, res) => {
     // res.send(admin);
 };
 const adminlogin = async (req, res) => {
+    
     let admin = await Admin.findOne({ email: req.body.email });
     // console.log(admin)
     if (admin) {
         if (await bcrypt.compare(req.body.password, admin.password)) {
-            jwt.sign({ admin }, secretkey, { expiresIn: '30d' }, (err, token) => {
+            jwt.sign({ uid : admin._id , usertype:'admin' }, secretkey, { expiresIn: '30d' }, (err, token) => {
                 // console.log("inside admin");
                 res.json({
                     token

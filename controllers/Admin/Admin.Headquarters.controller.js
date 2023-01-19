@@ -1,9 +1,19 @@
 const User = require("../../model/user");
+const bcrypt = require('bcryptjs');
+const Config = require('../../comman/config')
+
 const Headquarters = async (req, res) => {
+
     try {
+        var hashedPassword = await bcrypt.hash(req.body.password, Config.SALT_WORK_FACTOR)
+        req.body.password = hashedPassword
+
+
         console.log(req.body)
+        req.body.usertype = "Headquarters"
 
         let user = new User(req.body);
+
         user = await user.save();
 
 
@@ -17,7 +27,7 @@ const Headquarters = async (req, res) => {
 const GetHeadquarters = async (req, res) => {
     try {
 
-        const user = await User.find({}).sort();
+        const user = await User.find({ usertype: "Headquarters" }).sort();
         return res.status(200).json({ status: 200, message: "Get All user succesfully", data: user });
     }
     catch (ex) {
@@ -47,6 +57,7 @@ const DeleteHeadquarters = async (req, res) => {
     console.log(data)
     if (data) {
         const user = await User.findByIdAndRemove(req.params.id);
+
         if (!user) return res.status(500).json({ status: 500, message: "The User is not present by id" })
         return res.status(200).json({ status: 200, message: "User Deleted successfully" });
 
@@ -56,8 +67,9 @@ const DeleteHeadquarters = async (req, res) => {
     }
 
 };
+//Get by ID Method
 const Getheadquarters = async (req, res) => {
-    // console.log("234")
+    // console.log(req.userData)
     try {
         const user = await User.findById(req.params.id);
         return res.status(200).json({ status: 200, message: "The user with the given ID", data: user });
@@ -70,6 +82,9 @@ const Getheadquarters = async (req, res) => {
 
     }
 };
+
+
+
 
 
 module.exports = {

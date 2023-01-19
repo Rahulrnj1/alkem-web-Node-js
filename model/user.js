@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema({
     password: { type: String },
     usertype: { type: String },
     phonenumber: { type: String },
-    // headquarters:{type: mongoose.Schema.Types.ObjectId},
+    userid: { type: mongoose.Schema.Types.ObjectId },
     zone: { type: String },
     division: { type: String },
     state: { type: String },
