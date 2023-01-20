@@ -40,7 +40,7 @@ const GetDSm = async (req, res) => {
 };
 const UpdateDSm = async (req, res) => {
 
-    console.log(req.body)
+   // console.log(req.body)
     const data = await User.findOne({ employeeid: req.body.employeeid, isdeleted: false, _id: { $ne: req.params.id } })
     if (data) {
         return res.status(500).json({ status: 400, message: "employeeid is Already" });
@@ -56,7 +56,7 @@ const UpdateDSm = async (req, res) => {
 const DeleteDSm = async (req, res) => {
 
     const data = await User.findOne({ _id: req.params.id })
-    console.log(data)
+   // console.log(data)
     if (data) {
         const user = await User.findByIdAndRemove(req.params.id);
 

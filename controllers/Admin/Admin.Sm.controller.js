@@ -1,3 +1,4 @@
+
 const bcrypt = require('bcryptjs');
 const Config = require('../../comman/config')
 const jwt = require('jsonwebtoken');
@@ -5,6 +6,7 @@ const secretkey = "secretkey"
 const User = require("../../model/user")
 
 const addSm = async (req, res) => {
+    // console.log(req.userData)
 
     try {
         var hashedPassword = await bcrypt.hash(req.body.password, Config.SALT_WORK_FACTOR)
@@ -12,7 +14,7 @@ const addSm = async (req, res) => {
 
         req.body.userid = req.userData.uid
 
-        // console.log(userData )
+        
 
         req.body.usertype = "Sm"
 
@@ -30,7 +32,7 @@ const addSm = async (req, res) => {
 const GetSm = async (req, res) => {
     try {
         // console.log(req.userData)
-        const user = await User.find({ usertype: "Sm",userid:req.userData.uid}).sort();
+        const user = await User.find({ usertype: "Sm", userid: req.userData.uid }).sort();
         return res.status(200).json({ status: 200, message: "Get All Sm succesfully", data: user });
     }
     catch (ex) {
@@ -88,5 +90,4 @@ const GetsingleSm = async (req, res) => {
 
 module.exports = {
     addSm, GetSm, UpdateSm, DeleteSm, GetsingleSm
-
 }

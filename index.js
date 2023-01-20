@@ -20,8 +20,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const adminrouter = require("./router/Admin.routers");
 app.use('/admin', adminrouter)
 
-const Headquarterrouter = require("./router/Headquarter");
-app.use('/Headquarter', Headquarterrouter)
 
 const Smrouter = require("./router/Sm");
 app.use('/Sm', Smrouter)

@@ -26,7 +26,7 @@ function checkAuth(usertype) {
                         }
                         else {
                             return res.status(500).json({
-                                message: "Token not found ss"
+                                message: "Token not found "
                             })
                         }
                     }

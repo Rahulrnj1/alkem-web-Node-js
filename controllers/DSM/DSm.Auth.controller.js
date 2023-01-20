@@ -7,9 +7,9 @@ const DSmlogin = async (req, res) => {
 
     let user = await User.findOne({ employeeid: req.body.employeeid });
 
-    // console.log(user)
+    console.log(user)
     if (user) {
-    
+
         if (await bcrypt.compare(req.body.password, user.password)) {
             // console.log(user)
 

@@ -4,18 +4,21 @@ const { adminRegisterSchema, adminLoginSchema } = require("../middleware/Admin.j
 
 const { checkAuth } = require('../middleware/jwt')
 
-const { userSchema, Updateuserschema } = require("../middleware/User.joi")
-const usercontroller = require("../controllers/Admin/Admin.Headquarters.controller");
 const adminControllers = require("../controllers/Admin/Admin.Auth.controller")
+const smcontroller = require("../controllers/Admin/Admin.Sm.controller");
+const { smSchema, UpdatesmSchema } = require("../middleware/Sm.joi")
+
+
 
 router.post('/register', adminRegisterSchema, adminControllers.adminRegister);
 router.post('/login', adminLoginSchema, adminControllers.adminlogin);
-//Admin to headquarters
-router.post('/headquarters', checkAuth('admin'), userSchema, usercontroller.Headquarters);
-router.get('/Getheadquarters', checkAuth('admin'), usercontroller.GetHeadquarters);
-router.put('/Updateheadquarters/:id', checkAuth('admin'), Updateuserschema, usercontroller.UpdateHeadquarters);
-router.delete('/deleteheadquarters/:id', checkAuth('admin'), usercontroller.DeleteHeadquarters);
-router.get('/Getheadquarters/:id', checkAuth('admin'), usercontroller.Getheadquarters);
+//Admin to SM
+router.post('/addsm', checkAuth('admin'), smSchema, smcontroller.addSm);
+router.get('/getsm', checkAuth('admin'), smcontroller.GetSm);
+router.put('/editsm/:id', checkAuth('admin'), UpdatesmSchema, smcontroller.UpdateSm);
+router.delete('/deletesm/:id', checkAuth('admin'), smcontroller.DeleteSm);
+router.get('/getsinglesm/:id', checkAuth('admin'), smcontroller.GetsingleSm);
+
 
 
 
