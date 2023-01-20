@@ -8,7 +8,6 @@ const doctorSchema = mongoose.Schema({
     hospital: { type: String },
     designation: { type: String },
     additional_qualification: { type: String },
-    headquarters: { type: String },
     state: { type: String },
     pincode: { type: String },
     action: { type: String },
