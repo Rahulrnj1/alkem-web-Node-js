@@ -20,13 +20,18 @@ const Mrcontroller = require("../controllers/MR/Mr.Auth.controller");
 
 //Doctor
 const { checkAuth } = require('../middleware/jwt')
-const { doctorSchema } = require("../middleware/Doctor.joi")
+const { doctorSchema, UpdatedoctorSchema } = require("../middleware/Doctor.joi")
 const Dotorcontroller = require("../controllers/MR/MR.Doctor.controller");
 
 router.post('/mrlogin', Mrloginschema, Mrcontroller.Mrlogin);
 
 //Doctor
-router.post('/adddoctor', checkAuth('MR'), upload.single('doctor_image'),doctorSchema, Dotorcontroller.adddoctor);
+router.post('/adddoctor', checkAuth('MR'), upload.single('doctor_image'), doctorSchema, Dotorcontroller.adddoctor);
+router.get('/getdoctor', checkAuth('MR'), Dotorcontroller.Getdoctor);
+router.put('/editdoctor/:id', checkAuth('MR'), UpdatedoctorSchema, Dotorcontroller.Updatedoctor);
+router.delete('/deletedoctor/:id', checkAuth('MR'), Dotorcontroller.Deletedoctor);
+router.get('/getsingledoctor/:id', checkAuth('MR'), Dotorcontroller.Getsingledoctor);
+
 
 
 

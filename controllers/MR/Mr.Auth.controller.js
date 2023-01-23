@@ -9,7 +9,7 @@ const Mrlogin = async (req, res) => {
 
     //console.log(user)
     if (user) {
-    
+
         if (await bcrypt.compare(req.body.password, user.password)) {
             // console.log(user)
 

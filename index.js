@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 var bodyParser = require("body-parser");
+const path = require('path')
 
 mongoose.connect('mongodb://127.0.0.1:27017/AlkemWebsite')
     .then(() => {
@@ -14,6 +15,10 @@ const app = express('');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+const AssetPath = path.join(__dirname, 'Asset');
+
+app.use(express.static(AssetPath));
 
 
 
