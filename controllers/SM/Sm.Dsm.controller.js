@@ -9,7 +9,7 @@ const addDsm = async (req, res) => {
         var hashedPassword = await bcrypt.hash(req.body.password, Config.SALT_WORK_FACTOR)
         req.body.password = hashedPassword
 
-        req.body.userid = req.userData.uid
+        req.body.dsmid = req.userData.uid
 
         // console.log(userData )
 

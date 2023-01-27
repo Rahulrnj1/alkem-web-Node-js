@@ -18,4 +18,5 @@ router.delete('/deletedsm/:id', checkAuth('Sm'), dsmcontroller.DeleteDSm);
 router.get("/dsmDetails/:id", checkAuth('Sm'), dsmcontroller.GetsingleDSm)
 
 
+
 module.exports = router;

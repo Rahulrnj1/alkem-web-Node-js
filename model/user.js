@@ -1,20 +1,23 @@
 const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
-    name: { type: String },
+    name: { type: String, default: '' },
     email: { type: String, unique: true },
-    password: { type: String },
-    usertype: { type: String },
-    phonenumber: { type: String },
-    userid: { type: mongoose.Schema.Types.ObjectId },
-    zone: { type: String },
-    division: { type: String },
-    state: { type: String },
+    employeeid: { type: String, unique: true },
+    password: { type: String, default: '' },
+    usertype: { type: String, default: '' },
+    phonenumber: { type: String, default: '' },
+    rmid: mongoose.Schema.Types.ObjectId,
+    dsmid: mongoose.Schema.Types.ObjectId,
+    smid: mongoose.Schema.Types.ObjectId,
+    zone: { type: String, default: '' },
+    division: { type: String, default: '' },
+    state: { type: String, default: '' },
     is_active: { type: Boolean, default: true },
     created_at: { type: Date, default: Date.now },
     is_delete: { type: Boolean, default: false },
     updated_at: { type: Date, default: Date.now },
-    employeeid: { type: String, unique: true },
+
 
 
 }, {

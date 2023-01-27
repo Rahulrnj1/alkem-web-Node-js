@@ -9,7 +9,9 @@ const addMR = async (req, res) => {
         var hashedPassword = await bcrypt.hash(req.body.password, Config.SALT_WORK_FACTOR)
         req.body.password = hashedPassword
 
-        req.body.userid = req.userData.uid
+        req.body.dsmid = req.userData.uid
+        req.body.rmid = req.userData.uid
+        req.body.smid = req.userData.uid
 
         // console.log(userData )
 
@@ -59,7 +61,7 @@ const UpdateMR = async (req, res) => {
 const DeleteMr = async (req, res) => {
 
     const data = await User.findOne({ _id: req.params.id })
-    console.log(data)
+    //console.log(data)
     if (data) {
         const user = await User.findByIdAndRemove(req.params.id);
 

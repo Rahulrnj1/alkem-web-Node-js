@@ -9,7 +9,9 @@ const addRm = async (req, res) => {
         var hashedPassword = await bcrypt.hash(req.body.password, Config.SALT_WORK_FACTOR)
         req.body.password = hashedPassword
 
-        req.body.userid = req.userData.uid
+        //req.body.userid = req.userData.uid
+        req.body.dsmid = req.userData.uid
+        req.body.smid = req.userData.uid
 
         // console.log(req.userData)
 
@@ -86,6 +88,7 @@ const GetRMdetails = async (req, res) => {
 
     }
 };
+
 
 module.exports = {
     addRm, GetRM, UpdateRM, DeleteRm, GetRMdetails
