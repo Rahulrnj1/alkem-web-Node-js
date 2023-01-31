@@ -66,6 +66,8 @@ router.get('/getprescription', checkAuth('MR'), prescriptioncontroller.GetPrescr
 
 router.delete('/delprescription/:id', checkAuth('MR'), prescriptioncontroller.deletePrescription)
 
+router.post('/export',  Dotorcontroller.exportss);
+
 
 
 

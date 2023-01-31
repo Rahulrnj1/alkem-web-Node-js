@@ -8,8 +8,8 @@ const addDsm = async (req, res) => {
     try {
         var hashedPassword = await bcrypt.hash(req.body.password, Config.SALT_WORK_FACTOR)
         req.body.password = hashedPassword
-
-        req.body.dsmid = req.userData.uid
+        const userdetails = await User.findOne({ _id: req.userData.uid })
+        req.body.smid = req.userData.uid
 
         // console.log(userData )
 

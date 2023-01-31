@@ -3,11 +3,19 @@ const Config = require('../../comman/config')
 const jwt = require('jsonwebtoken');
 const secretkey = "secretkey"
 const Pledge = require("../../model/Pledge")
+
+var mongoose = require('mongoose');
+
+const User = require("../../model/user")
 const addpledge = async (req, res) => {
 
     try {
         // console.log(req.userData);
-        req.body.userid = req.userData.uid
+        const userdetails = await User.findOne({ _id: req.userData.uid })
+        req.body.dsmid = userdetails.dsmid
+        req.body.smid = userdetails.smid
+        req.body.rmid = userdetails.rmid
+        req.body.mrid = req.userData.uid
         let fileName = req.file.filename;
         req.body.doctor_name,
             req.body.month,
@@ -28,16 +36,63 @@ const addpledge = async (req, res) => {
 }
 const Getpledge = async (req, res) => {
     try {
-        //console.log(req.userData)
-        const pledge = await Pledge.find({ userid: req.userData.uid }).sort();
-        return res.status(200).json({ status: 200, message: "Get All Pledge succesfully", data: pledge });
+ 
+
+        let query = {
+            mrid: mongoose.Types.ObjectId(req.userData.uid)
+        }
+
+        const aggreagate = [
+            { $match: query },
+
+            {
+                //join query
+                $lookup: {
+                    from: "doctor",
+                    localField: "doctorid",
+                    foreignField: "_id",
+                    as: "doctorinfo",
+                }
+            },
+            { $unwind: "$doctorinfo" },
+            {
+                $project: {
+                    doctorid: 1,
+                    mrid: 1,
+                    month: 1,
+                    brand: 1,
+                    numberOfRXs: 1,
+                    status: 1,
+                    totalValue: 1,
+                    doctorname: "$doctorinfo.doctor_name"
+                }
+            }
+        ]
+
+        const pledge = await Pledge.aggregate(aggreagate);
+
+        if (Object(pledge).length === 0) {
+            return res.status(200).json({ status: 200, message: "Get All pledge succesfully", data: [] });
+        }
+        else {
+
+
+
+            return res.status(200).json({ status: 200, message: "Get All pledge succesfully", data: pledge });
+        }
+
+
+
     }
+
     catch (ex) {
         console.log(ex.message);
         return res.status(500).json({ status: 500, message: "error" })
     }
 
 };
+
+
 const Updatepledge = async (req, res) => {
 
     // console.log(req.body)

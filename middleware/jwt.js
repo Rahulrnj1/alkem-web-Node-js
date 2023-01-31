@@ -20,6 +20,7 @@ function checkAuth(usertype) {
                     } else {
                         if (usertype == authData.usertype) {
                             req['userData'] = authData;
+                            //console.log(req)
 
                             next();
 

@@ -5,21 +5,14 @@ const jwt = require('jsonwebtoken');
 const secretkey = "secretkey"
 const User = require("../../model/user")
 
-
-const getsheet = async (req, res) => {
-
-}
-
 const addSm = async (req, res) => {
-    // console.log(req.userData)
+    console.log(req.userData)
 
     try {
         var hashedPassword = await bcrypt.hash(req.body.password, Config.SALT_WORK_FACTOR)
         req.body.password = hashedPassword
 
         //req.body.smid = req.userData.uid
-
-
 
         req.body.usertype = "Sm"
 

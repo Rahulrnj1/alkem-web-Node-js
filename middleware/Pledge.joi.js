@@ -3,7 +3,7 @@ const validateSchema = require("./validation")
 
 const pledgeSchema = async (req, res, next) => {
     const Schema = Joi.object().keys({
-        doctor_name: Joi.string().required(),
+        doctorid: Joi.string().required(),
         month: Joi.string().required(),
         target: Joi.string().required(),
         is_active: Joi.boolean(),
@@ -16,7 +16,7 @@ const pledgeSchema = async (req, res, next) => {
 const UpdatepledgeSchema = async (req, res, next) => {
 
     const schema = Joi.object({
-        doctor_name: Joi.string().required(),
+        doctorid: Joi.string().required(),
         month: Joi.string().required(),
         target: Joi.string().required(),
         is_active: Joi.boolean(),

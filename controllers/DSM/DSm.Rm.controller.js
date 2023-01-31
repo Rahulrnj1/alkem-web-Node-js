@@ -2,18 +2,20 @@ const bcrypt = require('bcryptjs');
 const Config = require('../../comman/config')
 const jwt = require('jsonwebtoken');
 const secretkey = "secretkey"
-const User = require("../../model/user")
+const User = require("../../model/user");
+
 const addRm = async (req, res) => {
 
     try {
         var hashedPassword = await bcrypt.hash(req.body.password, Config.SALT_WORK_FACTOR)
         req.body.password = hashedPassword
+        //console.log(req.userData.uid)
+        //profile get
+        const userdetails = await User.findOne({ _id: req.userData.uid })
 
-        //req.body.userid = req.userData.uid
+        console.log(req.userData)
         req.body.dsmid = req.userData.uid
-        req.body.smid = req.userData.uid
-
-        // console.log(req.userData)
+        req.body.smid = userdetails.smid
 
         req.body.usertype = "RM"
 
@@ -32,8 +34,9 @@ const addRm = async (req, res) => {
 const GetRM = async (req, res) => {
     try {
 
+        const user = await User.find({ usertype: "RM", dsmid: req.userData.uid }).sort();
+        console.log(req.userData.uid)
 
-        const user = await User.find({ usertype: "RM", userid: req.userData.uid }).sort();
         return res.status(200).json({ status: 200, message: "Get All RM succesfully", data: user });
     }
     catch (ex) {

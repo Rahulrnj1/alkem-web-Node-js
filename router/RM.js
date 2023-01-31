@@ -8,6 +8,8 @@ const { AddMrSchema, UpdateMrSchema } = require("../middleware/Mr.joi")
 
 const Mrcontroller = require("../controllers/RM/RM.MR.controller");
 const Rmdoctorcontroller = require("../controllers/RM/Rm.Doctor.controller")
+const prescriptionscontroller = require("../controllers/RM/Rm.Prescription.controller")
+const pledgecontroller = require("../controllers/RM/Rm.Pledge.controller")
 
 const { checkAuth } = require('../middleware/jwt')
 //RM login
@@ -22,6 +24,13 @@ router.get('/getmrdetails/:id', checkAuth('RM'), Mrcontroller.GetMrdetails);
 
 //Rm to doctor
 router.get('/getdoctorlist', checkAuth('RM'), Rmdoctorcontroller.Getdoctor);
+
+
+//prescription
+router.get('/getprescriptionlist', checkAuth('RM'), prescriptionscontroller.GetPrescriptions);
+//prescription
+router.get('/getpledgelist', checkAuth('RM'), pledgecontroller.Getpledges);
+
 
 
 

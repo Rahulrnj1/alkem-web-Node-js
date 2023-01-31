@@ -7,14 +7,14 @@ const DSmlogin = async (req, res) => {
 
     let user = await User.findOne({ employeeid: req.body.employeeid });
 
-    console.log(user)
+    //console.log(user)
     if (user) {
 
         if (await bcrypt.compare(req.body.password, user.password)) {
-            // console.log(user)
+            //console.log(user)
 
             jwt.sign({ uid: user._id, usertype: "DSm" }, secretkey, { expiresIn: '30d' }, (err, token) => {
-                // console.log("inside DSm");
+                //console.log("inside DSm");
                 res.json({
                     token
                 })

@@ -5,8 +5,9 @@ const secretkey = "secretkey"
 const Doctor = require("../../model/Doctor")
 const Getdoctor = async (req, res) => {
     try {
-       // console.log(req.userData)
-        const doctor = await Doctor.find({ userid: req.userData.uid }).sort();
+        // console.log(req.userData)
+        
+        const doctor = await Doctor.find({ rmid: req.userData.uid }).sort();
         return res.status(200).json({ status: 200, message: "Get All doctor succesfully", data: doctor });
     }
     catch (ex) {

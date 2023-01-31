@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const adminSchema = mongoose.Schema({
-    name: { type: String },
+    name: { type: String, default: " " },
     email: { type: String, unique: true },
-    password: { type: String },
+    password: { type: String, default: " " },
     is_active: { type: Boolean, default: true },
     created_at: { type: Date, default: Date.now },
     is_delete: { type: Boolean, default: false },

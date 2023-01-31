@@ -9,11 +9,16 @@ const addMR = async (req, res) => {
         var hashedPassword = await bcrypt.hash(req.body.password, Config.SALT_WORK_FACTOR)
         req.body.password = hashedPassword
 
-        req.body.dsmid = req.userData.uid
-        req.body.rmid = req.userData.uid
-        req.body.smid = req.userData.uid
+        const userdetails = await User.findOne({ _id: req.userData.uid })
 
-        // console.log(userData )
+        // console.log(userdetails.smid)
+        // console.log(userdetails.dsmid)
+        // console.log(req.userData)
+        req.body.dsmid = userdetails.dsmid
+        req.body.smid =  userdetails.smid
+        // req.body.rmid = userdetails.
+        req.body.rmid = req.userData.uid
+      
 
         req.body.usertype = "MR"
 

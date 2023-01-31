@@ -3,16 +3,50 @@ const Config = require('../../comman/config')
 const jwt = require('jsonwebtoken');
 const secretkey = "secretkey"
 const Doctor = require("../../model/Doctor")
+const User = require("../../model/user")
+const { parse } = require('json2csv');
+const fs = require("fs");
+//const User = require('../../model/user');
+const exportss = async (req, res) => {
+    Doctor.find({}, { _id: 0, createdAt: 0, updatedAt: 0 }, (err, Doctor) => {
+        console.log("Doctor", Doctor);
+        const fields = ['doctor_name', 'additional_qualification', 'phone_number'];
+        const opts = { fields };
+        try {
+            const csv = parse(Doctor, opts);
+            fs.writeFile("doctor.csv", csv, function (error) {
+                if (error) throw error;
+                console.log("write successfully");
+
+            });
+            console.log(csv);
+            return res.status(200).json({ status: 200, message: "Csv created successfully" });
+
+
+        } catch (err) {
+            console.error(err)
+            return res.status(400).json({ status: 400, error: err.message, message: "invalid " });
+
+        }
+    })
+
+}
 const adddoctor = async (req, res) => {
 
     try {
-        // console.log(req.userData);
+        
+        const userdetails = await User.findOne({ _id: req.userData.uid })
+        req.body.dsmid = userdetails.dsmid
+        req.body.smid = userdetails.smid
+        req.body.rmid = userdetails.rmid
 
-        req.body.userid = req.userData.uid
+
+        req.body.mrid = req.userData.uid
         let fileName = req.file.filename;
         // console.log(fileName);
+        
         req.body.doctor_image = fileName;
-       // >db.userdetails.find().limit(2).pretty();
+        // >db.userdetails.find().limit(2).pretty();
 
         let doctor = new Doctor(req.body);
         doctor = await doctor.save();
@@ -89,4 +123,4 @@ const Getsingledoctor = async (req, res) => {
     }
 };
 
-module.exports = { adddoctor, Getdoctor, Updatedoctor, Deletedoctor, Getsingledoctor }
+module.exports = { adddoctor, Getdoctor, Updatedoctor, Deletedoctor, Getsingledoctor, exportss }

@@ -3,13 +3,17 @@ const Config = require('../../comman/config')
 const jwt = require('jsonwebtoken');
 const secretkey = "secretkey"
 const Prescription = require("../../model/Prescription");
-const Doctor = require("../../model/Doctor");
+const User = require("../../model/user");
 
 const mongoose = require('mongoose');
 const addPrescription = async (req, res) => {
     try {
         console.log(req.userData);
-        req.body.mr_id = req.userData.uid
+        const userdetails = await User.findOne({ _id: req.userData.uid })
+        req.body.dsmid = userdetails.dsmid
+        req.body.smid = userdetails.smid
+        req.body.rmid = userdetails.rmid
+        req.body.mrid = req.userData.uid
         req.body.status = "submit to RM"
 
 
@@ -26,7 +30,7 @@ const addPrescription = async (req, res) => {
 }
 const GetPrescription = async (req, res) => {
     try {
-        // console.log(req.userData.uid)
+        console.log(req.userData.uid)
 
 
         // const prescription = await Prescription.find(
@@ -36,7 +40,7 @@ const GetPrescription = async (req, res) => {
         // ).sort();
 
         let query = {
-            mr_id: mongoose.Types.ObjectId(req.userData.uid)
+            mrid: mongoose.Types.ObjectId(req.userData.uid)
         }
 
         const aggreagate = [
@@ -55,7 +59,7 @@ const GetPrescription = async (req, res) => {
             {
                 $project: {
                     doctorid: 1,
-                    mr_id: 1,
+                    mrid: 1,
                     month: 1,
                     brand: 1,
                     numberOfRXs: 1,

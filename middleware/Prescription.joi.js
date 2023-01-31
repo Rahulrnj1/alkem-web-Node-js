@@ -17,4 +17,4 @@ const prescriptionSchema = async (req, res, next) => {
 }
 
 
-module.exports = { prescriptionSchema}
+module.exports = { prescriptionSchema }
