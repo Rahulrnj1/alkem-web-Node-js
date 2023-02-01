@@ -37,6 +37,7 @@ const addpledge = async (req, res) => {
 const Getpledge = async (req, res) => {
     try {
  
+        console.log(req.userData)
 
         let query = {
             mrid: mongoose.Types.ObjectId(req.userData.uid)

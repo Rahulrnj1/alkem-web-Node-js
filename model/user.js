@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
     name: { type: String, default: '' },
-    email: { type: String, unique: true },
-    employeeid: { type: String, unique: true },
+    email: { type: String, default: '' },
+    employeeid: { type: String, default: '' },
     password: { type: String, default: '' },
     usertype: { type: String, default: '' },
     phonenumber: { type: String, default: '' },
@@ -23,7 +23,17 @@ const userSchema = mongoose.Schema({
 }, {
     collection: "user",
     versionKey: false
-});
+}).index(
+    {
+        email: 1,
+        employeeid: 1
+    },
+    {
+        unique: true,
+        partialFilterExpression: { email: { $exists: true } },
+        partialFilterExpression: { employeeid: { $exists: true } },
+    }
+);
 
 const User = mongoose.model("user", userSchema)
 module.exports = User

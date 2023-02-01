@@ -28,7 +28,7 @@ router.get('/getdoctorlist', checkAuth('RM'), Rmdoctorcontroller.Getdoctor);
 
 //prescription
 router.get('/getprescriptionlist', checkAuth('RM'), prescriptionscontroller.GetPrescriptions);
-//prescription
+//prdge
 router.get('/getpledgelist', checkAuth('RM'), pledgecontroller.Getpledges);
 
 
