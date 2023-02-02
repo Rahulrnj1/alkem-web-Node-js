@@ -15,10 +15,10 @@ const addMR = async (req, res) => {
         // console.log(userdetails.dsmid)
         // console.log(req.userData)
         req.body.dsmid = userdetails.dsmid
-        req.body.smid =  userdetails.smid
+        req.body.smid = userdetails.smid
         // req.body.rmid = userdetails.
         req.body.rmid = req.userData.uid
-      
+
 
         req.body.usertype = "MR"
 
@@ -38,7 +38,7 @@ const GetMR = async (req, res) => {
         // console.log(req.userData)
 
 
-        const user = await User.find({ usertype: "MR", userid: req.userData.uid }).sort();
+        const user = await User.find({ usertype: "MR", rmid: req.userData.uid }).limit(30).sort();
         return res.status(200).json({ status: 200, message: "Get All MR succesfully", data: user });
     }
     catch (ex) {

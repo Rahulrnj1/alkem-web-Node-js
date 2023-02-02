@@ -35,7 +35,7 @@ const GetallPrescriptions = async (req, res) => {
                     as: "mrinfo",
                 },
             },
-            {  
+            {
                 $unwind: "$mrinfo"
             },
             {
@@ -48,7 +48,7 @@ const GetallPrescriptions = async (req, res) => {
                     status: 1,
                     totalValue: 1,
                     doctorname: "$doctorinfo.doctor_name",
-                   // mrname: "$mrinfo.name"
+                    // mrname: "$mrinfo.name"
                 }
             }
         ]

@@ -11,6 +11,7 @@ const Rmdoctorcontroller = require("../controllers/RM/Rm.Doctor.controller")
 const prescriptionscontroller = require("../controllers/RM/Rm.Prescription.controller")
 const pledgecontroller = require("../controllers/RM/Rm.Pledge.controller")
 
+
 const { checkAuth } = require('../middleware/jwt')
 //RM login
 router.post('/rmlogin', Rmloginschema, Rmcontroller.RMlogin);
@@ -30,6 +31,8 @@ router.get('/getdoctorlist', checkAuth('RM'), Rmdoctorcontroller.Getdoctor);
 router.get('/getprescriptionlist', checkAuth('RM'), prescriptionscontroller.GetPrescriptions);
 //prdge
 router.get('/getpledgelist', checkAuth('RM'), pledgecontroller.Getpledges);
+
+
 
 
 

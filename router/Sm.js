@@ -46,4 +46,6 @@ router.get("/getallprescription", checkAuth('Sm'), smpledgecontroller.Getsmpledg
 
 
 
+
+
 module.exports = router;
