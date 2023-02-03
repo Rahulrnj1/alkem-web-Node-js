@@ -10,19 +10,39 @@ const addAssigndoctor = async (req, res) => {
 
     try {
 
-        const userdetails = await User.findOne({ _id: req.body.mrid })
-        var dsmid = userdetails.dsmid
-        var smid = userdetails.smid
-        var rmid = userdetails.rmid
+        const mrdoctorassigncount = await DoctorAssign.find({ mrid: req.body.mrid }).countDocuments();
 
-        for (let i = 0; i < req.body.doctor.length; i++) {
+        if (mrdoctorassigncount >= 80) {
 
-            var doctorid = req.body.doctor[i];
+            res.status(404).json({ error: { success: false, message: 'DoctorAssign Limit is Over ' } })
+        }
+        else {
+            var AssignCount = 80 - mrdoctorassigncount;
+            var newdoctorcount = req.body.doctor.length;
+            if (newdoctorcount > AssignCount) {
+                res.status(404).json({ error: { success: false, message: "doctorAssign Limit is " + AssignCount } })
+            }
+            else {
+
+                const userdetails = await User.findOne({ _id: req.body.mrid })
+                var dsmid = userdetails.dsmid
+                var smid = userdetails.smid
+                var rmid = userdetails.rmid
+
+                for (let i = 0; i < req.body.doctor.length; i++) {
+
+                    var doctorid = req.body.doctor[i];
 
 
-            let DoctorAssigns = new DoctorAssign({ dsmid: dsmid, smid: smid, rmid: rmid, mrid: mrid, doctorid: doctorid });
+                    let DoctorAssigns = new DoctorAssign({ dsmid: dsmid, smid: smid, rmid: rmid, mrid: mrid, doctorid: doctorid });
 
-            DoctorAssigns = await DoctorAssigns.save();
+                    DoctorAssigns = await DoctorAssigns.save();
+                }
+
+                return res.status(200).json({ status: 200, message: "DoctorAssign successfully" });
+
+            }
+
         }
     }
     catch (error) {
@@ -31,6 +51,13 @@ const addAssigndoctor = async (req, res) => {
     }
 
 }
+
+
+
+
+
+
+
 
 
 
