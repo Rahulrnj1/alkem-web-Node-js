@@ -61,11 +61,8 @@ const GetallPrescriptions = async (req, res) => {
         else {
 
 
-
             return res.status(200).json({ status: 200, message: "Get All Prescription succesfully", data: prescription });
         }
-
-
 
     }
 
