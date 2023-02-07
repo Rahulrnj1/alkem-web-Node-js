@@ -3,7 +3,7 @@ const validateSchema = require("./validation")
 
 const doctorAssignSchema = async (req, res, next) => {
     const Schema = Joi.object().keys({
-        doctorid: Joi.string().required(),
+        doctorid: Joi.array().items(Joi.string()).required(),
         mrid: Joi.string().required(),
         is_active: Joi.boolean(),
         is_delete: Joi.boolean(),

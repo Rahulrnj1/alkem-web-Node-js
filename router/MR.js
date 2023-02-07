@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
             + path.extname(file.originalname))
     }
 });
-//const upload = multer({ storage: storage })
+// const upload = multer({ storage: storage })
 const pledgestorage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './public/Pledge');
@@ -66,7 +66,7 @@ router.get('/getprescription', checkAuth('MR'), prescriptioncontroller.GetPrescr
 
 router.delete('/delprescription/:id', checkAuth('MR'), prescriptioncontroller.deletePrescription)
 
-router.post('/export',  Dotorcontroller.exportss);
+router.post('/export', Dotorcontroller.exportss);
 
 
 

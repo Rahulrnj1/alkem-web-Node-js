@@ -10,7 +10,6 @@ const doctorSchema = async (req, res, next) => {
         designation: Joi.string().required(),
         additional_qualification: Joi.string().required(),
         headquarters: Joi.string().required(),
-        // doctor_image: Joi.string().required(),
         garnet_no: Joi.string().required(),
         pincode: Joi.string().required(),
         is_active: Joi.boolean(),

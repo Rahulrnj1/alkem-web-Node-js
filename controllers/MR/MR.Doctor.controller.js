@@ -33,6 +33,7 @@ const exportss = async (req, res) => {
 }
 const adddoctor = async (req, res) => {
 
+    console.log(req.userData);
     try {
         
         const userdetails = await User.findOne({ _id: req.userData.uid })
