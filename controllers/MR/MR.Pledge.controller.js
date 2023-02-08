@@ -18,7 +18,7 @@ const addmrdoctorpledge = async (req, res) => {
         if (userdetails) {
             // console.log(mrdoctorpledgecount)
             const mrdoctorpledgecount = await MRDoctorPledge.find({ mrid: req.userData.uid }).countDocuments();
-            //  console.log(req.body.mrid)
+            console.log(req.userData.uid)
 
             if (mrdoctorpledgecount >= 30) {
 
@@ -34,7 +34,7 @@ const addmrdoctorpledge = async (req, res) => {
                 else {
 
                     var mrid = userdetails._id
-                    DoctorAssign.deleteMany({ mrid: req.userData.uid });
+                    await MRDoctorPledge.deleteMany({ mrid: req.userData.uid });
 
 
 
@@ -49,7 +49,7 @@ const addmrdoctorpledge = async (req, res) => {
 
                     }
 
-                    return res.status(200).json({ status: 200, message: "Doctorpledge successfully"});
+                    return res.status(200).json({ status: 200, message: "Doctorpledge successfully" });
 
                 }
 
