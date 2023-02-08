@@ -4,8 +4,11 @@ const jwt = require('jsonwebtoken');
 const secretkey = "secretkey"
 const Doctor = require("../../model/Doctor")
 const User = require("../../model/user")
+const DoctorAssign = require("../../model/DoctorAssign")
 const { parse } = require('json2csv');
 const fs = require("fs");
+var mongoose = require('mongoose');
+
 //const User = require('../../model/user');
 const exportss = async (req, res) => {
     Doctor.find({}, { _id: 0, createdAt: 0, updatedAt: 0 }, (err, Doctor) => {
@@ -35,7 +38,7 @@ const adddoctor = async (req, res) => {
 
     console.log(req.userData);
     try {
-        
+
         const userdetails = await User.findOne({ _id: req.userData.uid })
         req.body.dsmid = userdetails.dsmid
         req.body.smid = userdetails.smid
@@ -45,7 +48,7 @@ const adddoctor = async (req, res) => {
         req.body.mrid = req.userData.uid
         let fileName = req.file.filename;
         // console.log(fileName);
-        
+
         req.body.doctor_image = fileName;
         // >db.userdetails.find().limit(2).pretty();
 
@@ -65,8 +68,47 @@ const adddoctor = async (req, res) => {
 const Getdoctor = async (req, res) => {
     try {
         // console.log(req.userData)
-        const doctor = await Doctor.find({ usertype: "Mr", userid: req.userData.uid }).limit(30).sort();
-        return res.status(200).json({ status: 200, message: "Get All doctor succesfully", data: doctor });
+        const doctor = await DoctorAssign.find({ mrid: req.userData.uid }).sort();
+
+
+
+        let query = {
+            mrid: mongoose.Types.ObjectId(req.userData.uid)
+        }
+
+        const aggreagate = [
+            { $match: query },
+
+            {
+                //join query
+                $lookup: {
+                    from: "doctor",
+                    localField: "doctorid",
+                    foreignField: "_id",
+                    as: "doctorinfo",
+                }
+            },
+            { $unwind: "$doctorinfo" },
+            {
+                $addFields: {
+                    'dname': "$doctorinfo.doctor_name"
+                }
+            }, {
+                $project: {
+                    doctorinfo: 0
+                }
+            }
+        ]
+
+        const doctors = await DoctorAssign.aggregate(aggreagate);
+
+        if (Object(doctors).length === 0) {
+            return res.status(200).json({ status: 200, message: "Get All doctor succesfully", data: [] });
+        }
+        else {
+            return res.status(200).json({ status: 200, message: "Get All doctor succesfully", data: doctors });
+        }
+
     }
     catch (ex) {
         console.log(ex.message);

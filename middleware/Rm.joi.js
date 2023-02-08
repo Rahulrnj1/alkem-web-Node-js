@@ -12,7 +12,6 @@ const rmSchema = async (req, res, next) => {
         state: Joi.string().required(),
         profile: Joi.array().optional(),
         password: Joi.string().min(6).max(60).pattern(new RegExp('^[a-zA-Z0-9]{6,30}$')).messages({ 'string.pattern.base': `password number must have 6 digits.` }).required(),
-
         is_active: Joi.boolean(),
         is_delete: Joi.boolean(),
         created_at: Joi.date(),

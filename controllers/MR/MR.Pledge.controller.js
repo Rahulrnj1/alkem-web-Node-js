@@ -3,11 +3,70 @@ const Config = require('../../comman/config')
 const jwt = require('jsonwebtoken');
 const secretkey = "secretkey"
 const Pledge = require("../../model/Pledge")
+const MRDoctorPledge = require("../../model/MR.Doctor.pledge")
+const DoctorAssign = require("../../model/DoctorAssign")
 
 var mongoose = require('mongoose');
 
 const User = require("../../model/user")
+const addmrdoctorpledge = async (req, res) => {
+
+    try {
+
+        const userdetails = await User.findOne({ _id: req.userData.uid })
+
+        if (userdetails) {
+            // console.log(mrdoctorpledgecount)
+            const mrdoctorpledgecount = await MRDoctorPledge.find({ mrid: req.userData.uid }).countDocuments();
+            //  console.log(req.body.mrid)
+
+            if (mrdoctorpledgecount >= 30) {
+
+
+                res.status(404).json({ error: { success: false, message: 'Doctorpledge Limit is Over ' } })
+            }
+            else {
+                var pledgeCount = 30 - mrdoctorpledgecount;
+                var newdoctorpledgecount = req.body.doctorid.length;
+                if (newdoctorpledgecount > pledgeCount) {
+                    res.status(404).json({ error: { success: false, message: "doctorAssign Limit is " + pledgeCount } })
+                }
+                else {
+
+                    var mrid = userdetails._id
+                    DoctorAssign.deleteMany({ mrid: req.userData.uid });
+
+
+
+                    for (let i = 0; i < req.body.doctorid.length; i++) {
+
+                        var doctorid = req.body.doctorid[i];
+                        let Doctorpledge = new MRDoctorPledge({ mrid: mrid, doctorid: doctorid });
+
+
+                        Doctorpledge = await Doctorpledge.save();
+
+
+                    }
+
+                    return res.status(200).json({ status: 200, message: "Doctorpledge successfully"});
+
+                }
+
+            }
+        }
+        else {
+            return res.status(400).json({ status: 400, message: "user not found" });
+        }
+    }
+    catch (error) {
+        return res.status(400).json({ status: 400, error: error.message, message: "invalid " });
+
+    }
+
+}
 const addpledge = async (req, res) => {
+
 
     try {
         // console.log(req.userData);
@@ -36,7 +95,7 @@ const addpledge = async (req, res) => {
 }
 const Getpledge = async (req, res) => {
     try {
- 
+
         console.log(req.userData)
 
         let query = {
@@ -144,4 +203,4 @@ const Getsinglepledge = async (req, res) => {
     }
 };
 
-module.exports = { addpledge, Getpledge, Updatepledge, Deletepledge, Getsinglepledge }
+module.exports = { addpledge, Getpledge, Updatepledge, Deletepledge, Getsinglepledge, addmrdoctorpledge }

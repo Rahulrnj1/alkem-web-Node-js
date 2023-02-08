@@ -38,11 +38,18 @@ const addAssigndoctor = async (req, res) => {
                     for (let i = 0; i < req.body.doctorid.length; i++) {
 
                         var doctorid = req.body.doctorid[i];
+                        const doctorassigncheck = await DoctorAssign.find({ doctorid: doctorid, mrid: mrid }).countDocuments();
 
 
-                        let DoctorAssigns = new DoctorAssign({ dsmid: dsmid, smid: smid, rmid: rmid, mrid: mrid, doctorid: doctorid });
+                        if (doctorassigncheck == 0) {
+                            let DoctorAssigns = new DoctorAssign({ dsmid: dsmid, smid: smid, rmid: rmid, mrid: mrid, doctorid: doctorid });
 
-                        DoctorAssigns = await DoctorAssigns.save();
+
+                            DoctorAssigns = await DoctorAssigns.save();
+
+                        }
+
+
                     }
 
                     return res.status(200).json({ status: 200, message: "DoctorAssign successfully" });
@@ -82,48 +89,6 @@ const createdoctor = async (req, res) => {
     }
 }
 
-// Find the MR user in the database
-const transfecrMr = async (req, res) => {
-User.findOne({ name: 'MR' }, (err, mrUser) => {
-    if (err) {
-        console.error(err);
-    } else {
-        // Update the personal details and member ID of the MR user
-        mrUser.personalDetails = {};
-        mrUser.memberID = 'newMemberID';
 
-        // Save the updated MR user
-        mrUser.save((err) => {
-            if (err) {
-                console.error(err);
-            } else {
-                // Find the assigned new user in the database
-                User.findOne({ name: 'assigned new one' }, (err, newUser) => {
-                    if (err) {
-                        console.error(err);
-                    } else {
-                        // Transfer the data from MR to the assigned new user
-                        newUser.name = mrUser.name;
-                        newUser.personalDetails = mrUser.personalDetails;
-                        newUser.memberID = mrUser.memberID;
 
-                        // Save the updated assigned new user
-                        newUser.save((err) => {
-                            if (err) {
-                                console.error(err);
-                            } else {
-                                console.log('Data transfer successful');
-                                // Close the MongoDB connection
-                                mongoose.connection.close();
-                            }
-                            
-                        });
-                    }
-                });
-            }
-        });
-    }
-});
-}
-
-module.exports = { addAssigndoctor, createdoctor ,transfecrMr}
+module.exports = { addAssigndoctor, createdoctor }

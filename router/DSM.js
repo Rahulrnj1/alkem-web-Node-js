@@ -7,7 +7,7 @@ const GetDsmPrescriptions = require("../controllers/DSM/Dsm.Prescription List.co
 const { rmSchema, UpdateRmSchema } = require("../middleware/Rm.joi")
 
 const Rmcontroller = require("../controllers/DSM/DSm.Rm.controller")
-const Dsmscontroller  = require("../controllers/DSM/Dsm.Doctor List.controller")
+const Dsmscontroller = require("../controllers/DSM/Dsm.Doctor List.controller")
 const dsmmrcontroller = require("../controllers/DSM/Dsm.Mr.controller")
 
 const { checkAuth } = require('../middleware/jwt')

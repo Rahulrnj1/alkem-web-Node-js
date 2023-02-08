@@ -33,6 +33,8 @@ const prescriptioncontroller = require("../controllers/MR/MR.Prescription.contro
 //pledge
 const { pledgeSchema, UpdatepledgeSchema } = require("../middleware/Pledge.joi")
 const pledgecontroller = require("../controllers/MR/MR.Pledge.controller");
+const { mrdoctorpedgeSchema } = require("../middleware/MR.Doctorpledge.joi")
+
 
 //MR
 const { Mrloginschema } = require("../middleware/Mr.joi")
@@ -55,6 +57,8 @@ router.get('/getsingledoctor/:id', checkAuth('MR'), Dotorcontroller.Getsingledoc
 
 //pledge
 router.post('/addpledge', checkAuth('MR'), upload.single('image'), pledgeSchema, pledgecontroller.addpledge);
+router.post('/addmrdoctorpledge', checkAuth('MR'), mrdoctorpedgeSchema, pledgecontroller.addmrdoctorpledge);
+
 router.get('/getpledge', checkAuth('MR'), pledgecontroller.Getpledge);
 router.put('/editpledge/:id', checkAuth('MR'), UpdatepledgeSchema, pledgecontroller.Updatepledge)
 router.delete('/delpledge/:id', checkAuth('MR'), pledgecontroller.Deletepledge)

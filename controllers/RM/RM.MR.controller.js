@@ -11,12 +11,9 @@ const addMR = async (req, res) => {
 
         const userdetails = await User.findOne({ _id: req.userData.uid })
 
-        // console.log(userdetails.smid)
-        // console.log(userdetails.dsmid)
-        // console.log(req.userData)
         req.body.dsmid = userdetails.dsmid
         req.body.smid = userdetails.smid
-        // req.body.rmid = userdetails.
+
         req.body.rmid = req.userData.uid
 
 
@@ -94,4 +91,5 @@ const GetMrdetails = async (req, res) => {
     }
 };
 
+ 
 module.exports = { addMR, GetMR, UpdateMR, DeleteMr, GetMrdetails }
