@@ -58,6 +58,9 @@ router.get('/getsingledoctor/:id', checkAuth('MR'), Dotorcontroller.Getsingledoc
 //pledge
 router.post('/addpledge', checkAuth('MR'), upload.single('image'), pledgeSchema, pledgecontroller.addpledge);
 router.post('/addmrdoctorpledge', checkAuth('MR'), mrdoctorpedgeSchema, pledgecontroller.addmrdoctorpledge);
+//mrdoctorpledgelist
+router.get('/mrdoctorpledgeslist', checkAuth('MR'), pledgecontroller.mrdoctorpledgelist)
+
 
 router.get('/getpledge', checkAuth('MR'), pledgecontroller.Getpledge);
 router.put('/editpledge/:id', checkAuth('MR'), UpdatepledgeSchema, pledgecontroller.Updatepledge)

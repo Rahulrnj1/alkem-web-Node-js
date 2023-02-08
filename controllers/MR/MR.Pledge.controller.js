@@ -76,9 +76,8 @@ const addpledge = async (req, res) => {
         req.body.rmid = userdetails.rmid
         req.body.mrid = req.userData.uid
         let fileName = req.file.filename;
-        req.body.doctor_name,
-            req.body.month,
-            req.body.status = "submit to RM",
+
+        req.body.status = "submit to RM",
 
             req.body.image = fileName;
 
@@ -93,6 +92,56 @@ const addpledge = async (req, res) => {
 
     }
 }
+const mrdoctorpledgelist = async (req, res) => {
+    try {
+        // console.log(req.userData)
+        const doctor = await MRDoctorPledge.find({ mrid: req.userData.uid }).sort();
+        let query = {
+            mrid: mongoose.Types.ObjectId(req.userData.uid)
+        }
+
+        const aggreagate = [
+            { $match: query },
+
+            {
+                //join query
+                $lookup: {
+                    from: "doctor",
+                    localField: "doctorid",
+                    foreignField: "_id",
+                    as: "doctorinfo",
+                }
+            },
+            { $unwind: "$doctorinfo" },
+            {
+                $addFields: {
+                    'dname': "$doctorinfo.doctor_name"
+                }
+            }, {
+                $project: {
+                    doctorinfo: 0
+                }
+            }
+        ]
+
+        const doctors = await MRDoctorPledge.aggregate(aggreagate);
+
+        if (Object(doctors).length === 0) {
+            return res.status(200).json({ status: 200, message: "Get All doctor succesfully", data: [] });
+        }
+        else {
+            return res.status(200).json({ status: 200, message: "Get All doctor succesfully", data: doctors });
+        }
+
+    }
+    catch (ex) {
+        console.log(ex.message);
+        return res.status(500).json({ status: 500, message: "error" })
+    }
+
+};
+
+
 const Getpledge = async (req, res) => {
     try {
 
@@ -203,4 +252,4 @@ const Getsinglepledge = async (req, res) => {
     }
 };
 
-module.exports = { addpledge, Getpledge, Updatepledge, Deletepledge, Getsinglepledge, addmrdoctorpledge }
+module.exports = { addpledge, Getpledge, Updatepledge, Deletepledge, Getsinglepledge, addmrdoctorpledge, mrdoctorpledgelist }
