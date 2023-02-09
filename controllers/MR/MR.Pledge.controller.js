@@ -185,22 +185,16 @@ const Getpledge = async (req, res) => {
         }
         else {
 
-
-
             return res.status(200).json({ status: 200, message: "Get All pledge succesfully", data: pledge });
         }
 
-
-
     }
-
     catch (ex) {
         console.log(ex.message);
         return res.status(500).json({ status: 500, message: "error" })
     }
 
 };
-
 
 const Updatepledge = async (req, res) => {
 

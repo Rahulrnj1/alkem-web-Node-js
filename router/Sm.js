@@ -40,7 +40,7 @@ router.get("/getalldoctor", checkAuth('Sm'), smdoctorcontroller.Getalldoctor)
 //GetallPrescriptions
 router.get("/getallprescription", checkAuth('Sm'), smGetallPrescriptions.GetallPrescriptions)
 //Getsmpledges
-router.get("/getallprescription", checkAuth('Sm'), smpledgecontroller.Getsmpledges)
+router.get("/getallpledge", checkAuth('Sm'), smpledgecontroller.Getsmpledges)
 
 
 

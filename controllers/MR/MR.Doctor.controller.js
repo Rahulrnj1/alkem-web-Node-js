@@ -12,7 +12,7 @@ var mongoose = require('mongoose');
 //const User = require('../../model/user');
 const exportss = async (req, res) => {
     Doctor.find({}, { _id: 0, createdAt: 0, updatedAt: 0 }, (err, Doctor) => {
-        console.log("Doctor", Doctor);
+        // console.log("Doctor", Doctor);
         const fields = ['doctor_name', 'additional_qualification', 'phone_number'];
         const opts = { fields };
         try {

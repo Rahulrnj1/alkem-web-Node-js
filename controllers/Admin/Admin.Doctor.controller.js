@@ -48,14 +48,9 @@ const addAssigndoctor = async (req, res) => {
                             DoctorAssigns = await DoctorAssigns.save();
 
                         }
-
-
                     }
-
                     return res.status(200).json({ status: 200, message: "DoctorAssign successfully" });
-
                 }
-
             }
         }
         else {

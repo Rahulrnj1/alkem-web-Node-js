@@ -10,7 +10,7 @@ const Getsmpledges = async (req, res) => {
     try {
 
         //console.log(req.userData);
-        
+
         let query = {
             smid: mongoose.Types.ObjectId(req.userData.uid)
 
@@ -36,7 +36,7 @@ const Getsmpledges = async (req, res) => {
                     as: "mrinfo",
                 },
             },
-            {  
+            {
                 $unwind: "$mrinfo"
             },
             {
