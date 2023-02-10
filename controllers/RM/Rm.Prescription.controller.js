@@ -35,7 +35,7 @@ const GetPrescriptions = async (req, res) => {
                     as: "mrinfo",
                 },
             },
-            {  
+            {
                 $unwind: "$mrinfo"
             },
             {

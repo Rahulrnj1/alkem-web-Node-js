@@ -1,10 +1,8 @@
-
 const bcrypt = require('bcryptjs');
 const Config = require('../../comman/config')
 const jwt = require('jsonwebtoken');
 const secretkey = "secretkey"
 const User = require("../../model/user")
-
 const addSm = async (req, res) => {
     console.log(req.userData)
 
